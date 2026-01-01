@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/**
+ * WHAT to track
+ */
+model IndexConfig {
+  id             String  @id @default(uuid())
+  indexName      String
+  symbol         String  @unique
+  dropPercentage Float
+  enabled        Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("index_config")
+}
+
+/**
+ * WHAT happened
+ */
+model PriceHistory {
+  id            String @id @default(uuid())
+  symbol        String
+  price         Float
+  changePercent Float
+
+  createdAt DateTime @default(now())
+
+  @@index([symbol, createdAt])
+  @@map("price_history")
+}
+
+/**
+ * WHAT alerts were sent
+ */
+model AlertLog {
+  id           String @id @default(uuid())
+  symbol       String
+  dropPercent  Float
+  priceAtAlert Float
+
+  createdAt DateTime @default(now())
+
+  @@index([symbol, createdAt])
+  @@map("alert_logs")
+}

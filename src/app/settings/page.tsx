@@ -1,30 +1,87 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react"
+import { SettingsSchema, type Settings } from "@/lib/schemas/settings"
 
-export default function Settings() {
-  const [index, setIndex] = useState("NIFTY 50");
-  const [symbol, setSymbol] = useState("^NSEI");
-  const [drop, setDrop] = useState(5);
+export default function SettingsPage() {
+  const [settings, setSettings] = useState<Settings>({
+    index: "",
+    symbol: "",
+    dropPercentage: 5,
+  })
+
+  const [loading, setLoading] = useState(false)
+
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then(res => res.json())
+      .then(json => {
+        const parsed = SettingsSchema.parse(json) // ✅ runtime + type safety
+        setSettings(parsed)
+      })
+      .catch(err => {
+        console.error("Invalid settings response", err)
+      })
+  }, [])
+
+
+  async function saveSettings() {
+    setLoading(true)
+
+    const res = await fetch("/api/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(settings),
+    })
+
+    setLoading(false)
+
+    if (res.ok) alert("Settings saved ✅")
+    else alert("Error ❌")
+  }
 
   return (
-    <main style={{ padding: 24, maxWidth: 420 }}>
-      <h2>⚙️ Settings</h2>
+    <div className="max-w-md space-y-4">
+      <h1 className="text-xl font-semibold">⚙️ Settings</h1>
 
-      <label>Index Name</label>
-      <input value={index} onChange={e => setIndex(e.target.value)} />
-
-      <label>Symbol</label>
-      <input value={symbol} onChange={e => setSymbol(e.target.value)} />
-
-      <label>Drop %</label>
       <input
-        type="number"
-        value={drop}
-        onChange={e => setDrop(Number(e.target.value))}
+        className="w-full border p-2"
+        value={settings.index}
+        onChange={e =>
+          setSettings({ ...settings, index: e.target.value })
+        }
+        placeholder="Index name"
       />
 
-      <button style={{ marginTop: 12 }}>Save</button>
-    </main>
-  );
+      <input
+        className="w-full border p-2"
+        value={settings.symbol}
+        onChange={e =>
+          setSettings({ ...settings, symbol: e.target.value })
+        }
+        placeholder="Symbol"
+      />
+
+      <input
+        type="number"
+        className="w-full border p-2"
+        value={settings.dropPercentage}
+        onChange={e =>
+          setSettings({
+            ...settings,
+            dropPercentage: Number(e.target.value),
+          })
+        }
+      />
+
+      <button
+        onClick={saveSettings}
+        disabled={loading}
+        className="rounded bg-black px-4 py-2 text-white"
+      >
+        {loading ? "Saving..." : "Save"}
+      </button>
+    </div>
+  )
 }
