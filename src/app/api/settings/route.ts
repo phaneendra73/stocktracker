@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import { SettingsSchema, type Settings } from "@/lib/schemas/settings";
 
 export async function GET() {
+  // @ts-ignore
+  const prisma = new PrismaClient({
+    accelerateUrl: process.env.DATABASE_URL ?? "",
+  }).$extends(withAccelerate());
   const config = await prisma.indexConfig.findFirst();
 
   const data: Settings = {
@@ -15,6 +20,10 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  // @ts-ignore
+  const prisma = new PrismaClient({
+    accelerateUrl: process.env.DATABASE_URL ?? "",
+  }).$extends(withAccelerate());
   const json = await req.json();
   console.log(json);
   const parsed = SettingsSchema.safeParse(json);

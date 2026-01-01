@@ -1,4 +1,5 @@
-import prisma from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 /**
  * Yahoo Finance quote response (minimal fields we use)
@@ -40,6 +41,11 @@ async function fetchIndexPrice(symbol: string): Promise<FetchIndexPriceResult> {
 }
 
 export async function checkMarket(): Promise<void> {
+  // @ts-ignore
+  const prisma = new PrismaClient({
+    accelerateUrl: process.env.DATABASE_URL ?? "",
+  }).$extends(withAccelerate());
+
   console.log("⏰ Market check started");
 
   const config = await prisma.indexConfig.findFirst();
