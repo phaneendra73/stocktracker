@@ -4,7 +4,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "next-starter-template",
+  "name": "stocktracker",
   //"main": ".open-next/worker.js",
   "main": "custom-worker.ts",
   "compatibility_date": "2025-10-08",
