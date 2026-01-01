@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 import { SettingsSchema, type Settings } from "@/lib/schemas/settings";
 
+const prisma = getPrisma();
 export async function GET() {
   const config = await prisma.indexConfig.findFirst();
 

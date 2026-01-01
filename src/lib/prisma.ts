@@ -1,8 +1,23 @@
 import { PrismaClient } from "../../generated/prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
-const prisma = new PrismaClient({
-  accelerateUrl: process.env.PRISMA_ACCELERATE_URL || "",
-}).$extends(withAccelerate());
+let prisma: ReturnType<typeof createPrisma> | null = null;
 
-export default prisma;
+function createPrisma() {
+  const accelerateUrl = process.env.PRISMA_ACCELERATE_URL;
+
+  if (!accelerateUrl) {
+    throw new Error("PRISMA_ACCELERATE_URL is not defined");
+  }
+
+  return new PrismaClient({
+    accelerateUrl,
+  }).$extends(withAccelerate());
+}
+
+export function getPrisma() {
+  if (!prisma) {
+    prisma = createPrisma();
+  }
+  return prisma;
+}

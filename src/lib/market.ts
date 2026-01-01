@@ -1,5 +1,6 @@
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
+const prisma = getPrisma();
 /**
  * Yahoo Finance quote response (minimal fields we use)
  */
