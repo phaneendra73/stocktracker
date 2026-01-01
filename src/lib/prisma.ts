@@ -1,23 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
-let prisma: ReturnType<typeof createPrisma> | null = null;
-
-function createPrisma() {
-  const accelerateUrl = process.env.PRISMA_ACCELERATE_URL;
-
-  if (!accelerateUrl) {
-    throw new Error("PRISMA_ACCELERATE_URL is not defined");
-  }
-
+const prismaClientSingleton = () => {
   return new PrismaClient({
-    accelerateUrl,
+    accelerateUrl: process.env.DATABASE_URL,
   }).$extends(withAccelerate());
+};
+
+declare global {
+  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 
-export function getPrisma() {
-  if (!prisma) {
-    prisma = createPrisma();
-  }
-  return prisma;
-}
+const prisma = globalThis.prisma ?? prismaClientSingleton();
+
+export default prisma;

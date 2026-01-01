@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { getPrisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { SettingsSchema, type Settings } from "@/lib/schemas/settings";
 
 export async function GET() {
-  const prisma = getPrisma();
   const config = await prisma.indexConfig.findFirst();
 
   const data: Settings = {
@@ -26,7 +25,6 @@ export async function POST(req: Request) {
 
   const body: Settings = parsed.data;
 
-  const prisma = getPrisma();
   const existing = await prisma.indexConfig.findFirst();
 
   if (existing) {

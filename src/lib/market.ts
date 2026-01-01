@@ -1,4 +1,4 @@
-import { getPrisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 /**
  * Yahoo Finance quote response (minimal fields we use)
@@ -41,7 +41,6 @@ async function fetchIndexPrice(symbol: string): Promise<FetchIndexPriceResult> {
 
 export async function checkMarket(): Promise<void> {
   console.log("⏰ Market check started");
-  const prisma = getPrisma();
 
   const config = await prisma.indexConfig.findFirst();
   if (!config) {
