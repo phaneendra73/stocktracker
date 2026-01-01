@@ -14,17 +14,10 @@ export function Navbar() {
   return (
     <NavigationMenu>
       <NavigationMenuList className="flex gap-2">
-        {/* Home */}
+        {/* Dashboard (Home) */}
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/">Home</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        {/* Dashboard */}
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/">Dashboard</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 

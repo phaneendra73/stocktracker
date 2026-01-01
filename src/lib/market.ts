@@ -1,6 +1,5 @@
 import { getPrisma } from "@/lib/prisma";
 
-const prisma = getPrisma();
 /**
  * Yahoo Finance quote response (minimal fields we use)
  */
@@ -42,6 +41,7 @@ async function fetchIndexPrice(symbol: string): Promise<FetchIndexPriceResult> {
 
 export async function checkMarket(): Promise<void> {
   console.log("⏰ Market check started");
+  const prisma = getPrisma();
 
   const config = await prisma.indexConfig.findFirst();
   if (!config) {
@@ -58,6 +58,22 @@ export async function checkMarket(): Promise<void> {
       changePercent,
     },
   });
+
+  // Check for alert condition (drop > X%)
+  // changePercent is typically negative for drops, e.g. -2.5
+  // dropPercentage is stored as positive number, e.g. 5
+  if (changePercent <= -config.dropPercentage) {
+    console.log(
+      `🚨 ALERT: Drop detected! ${changePercent}% vs limit ${config.dropPercentage}%`
+    );
+    await prisma.alertLog.create({
+      data: {
+        symbol: config.symbol,
+        dropPercent: changePercent,
+        priceAtAlert: price,
+      },
+    });
+  }
 
   console.log("✅ Price stored");
 }
