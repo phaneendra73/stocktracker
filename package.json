@@ -1,61 +1,62 @@
 {
-	"name": "next-starter-template",
-	"description": "Build a full-stack web application with Next.js.",
-	"cloudflare": {
-		"label": "Next.js Framework Starter",
-		"products": [
-			"Workers"
-		],
-		"categories": [],
-		"preview_icon_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/05eee9e0-2c04-48fd-11bf-84e65f839000/public",
-		"preview_image_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/4e913a56-fd99-4372-0586-9f1364173100/preview",
-		"publish": true
-	},
-	"dependencies": {
-		"@opennextjs/cloudflare": "1.14.0",
-		"@prisma/client": "^7.2.0",
-		"@prisma/extension-accelerate": "^3.0.1",
-		"@radix-ui/react-label": "^2.1.8",
-		"@radix-ui/react-navigation-menu": "^1.2.14",
-		"@radix-ui/react-slot": "^1.2.4",
-		"@radix-ui/react-tabs": "^1.1.13",
-		"class-variance-authority": "^0.7.1",
-		"clsx": "^2.1.1",
-		"dotenv": "^17.2.3",
-		"lucide-react": "^0.562.0",
-		"next": "16.0.7",
-		"next-themes": "^0.4.6",
-		"react": "19.2.1",
-		"react-dom": "19.2.1",
-		"sonner": "^2.0.7",
-		"tailwind-merge": "^3.4.0",
-		"zod": "^4.3.4"
-	},
-	"devDependencies": {
-		"@eslint/eslintrc": "3",
-		"@tailwindcss/postcss": "4.1.17",
-		"@types/node": "24.10.1",
-		"@types/pg": "^8.16.0",
-		"@types/react": "19.2.7",
-		"@types/react-dom": "19.2.3",
-		"eslint": "9.39.2",
-		"eslint-config-next": "16.0.7",
-		"prisma": "^7.2.0",
-		"tailwindcss": "4.1.17",
-		"tsx": "^4.21.0",
-		"tw-animate-css": "^1.4.0",
-		"typescript": "5.9.3",
-		"wrangler": "4.56.0"
-	},
-	"private": true,
-	"scripts": {
-		"build": "next build",
-		"cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
-		"check": "npm run build && tsc",
-		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-		"dev": "next dev",
-		"lint": "next lint",
-		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-		"start": "next start"
-	}
+  "name": "next-starter-template",
+  "description": "Build a full-stack web application with Next.js.",
+  "cloudflare": {
+    "label": "Next.js Framework Starter",
+    "products": [
+      "Workers"
+    ],
+    "categories": [],
+    "preview_icon_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/05eee9e0-2c04-48fd-11bf-84e65f839000/public",
+    "preview_image_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/4e913a56-fd99-4372-0586-9f1364173100/preview",
+    "publish": true
+  },
+  "dependencies": {
+    "@opennextjs/cloudflare": "1.14.0",
+    "@prisma/client": "^7.2.0",
+    "@prisma/extension-accelerate": "^3.0.1",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-navigation-menu": "^1.2.14",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.562.0",
+    "next": "16.0.7",
+    "next-themes": "^0.4.6",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.4"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3",
+    "@tailwindcss/postcss": "4.1.17",
+    "@types/node": "24.10.1",
+    "@types/pg": "^8.16.0",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.0.7",
+    "prisma": "^7.2.0",
+    "tailwindcss": "4.1.17",
+    "tsx": "^4.21.0",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "5.9.3",
+    "wrangler": "4.56.0"
+  },
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
+    "check": "npm run build && tsc",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "dev": "next dev",
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "start": "next start"
+  }
 }
